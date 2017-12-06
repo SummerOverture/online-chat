@@ -16,8 +16,8 @@ export default {
           }
         })
         .catch(({ response }) => {
-          if (response.status === '403') {
-            store.commit('serAuthState', 403);
+          if (response.status === 403) {
+            store.commit('setAuthState', 403);
           }
           reject(response);
         });

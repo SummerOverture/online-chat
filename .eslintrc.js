@@ -43,6 +43,7 @@ module.exports = {
     'no-param-reassign': 'off',
     'no-nested-ternary': 'off',
     'global-require': 'off',
+    'no-plusplus': 'off',
     'import/no-dynamic-require': 'off',
   },
 };
