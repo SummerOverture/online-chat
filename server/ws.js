@@ -1,21 +1,47 @@
 const WebSocket = require('ws');
-const url = require('url');
+const { parseCookie } = require('./utils/utils');
 
 const PORT = process.env.PORT;
+
 module.exports = (server) => {
   const wss = new WebSocket.Server({ server });
+  const userList = new Map();
+
+  const broadCast = (type, data) => {
+    wss.clients.forEach((client) => {
+      if (client.readyState === WebSocket.OPEN) {
+        client.send(JSON.stringify({
+          type,
+          data,
+        }));
+      }
+    });
+  };
 
   wss.on('connection', (ws, req) => {
-    const location = url.parse(req.url, true);
-    // You might use location.query.access_token to authenticate or share sessions
-    // or req.headers.cookie (see http://stackoverflow.com/a/16395220/151312)
-    console.log(location);
+    let userInfo = {};
 
+    try {
+      userInfo = JSON.parse(decodeURIComponent(parseCookie(req.headers.cookie)['online-chat-sessionId']));
+    } catch (e) {
+      userInfo = {};
+    }
+
+    ws.userInfo = userInfo;
+
+    // 插入新的用户
+    userList.set(userInfo.id, userInfo);
     ws.on('message', (message) => {
-      console.log('received: %s', message);
+      broadCast('message', { ...userInfo, message });
     });
 
-    ws.send('something');
+    ws.on('close', () => {
+      // 移除用户
+      userList.delete(userInfo.id);
+      broadCast('userLeft', { userInfo, userList: [...userList.values()] });
+    });
+
+    broadCast('userIn', { userInfo, userList: [...userList.values()] });
   });
 
   server.listen(PORT, () => {

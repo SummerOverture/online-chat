@@ -18,7 +18,7 @@ app.use(bodyParser.urlencoded({
 app.use(cookieParser());
 app.use(compress());
 
-app.use(express.static('./static'));
+app.use(express.static(process.env.NODE_ENV==='development'? './static': './dist'));
 
 router(app);
 

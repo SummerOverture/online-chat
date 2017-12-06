@@ -1,32 +1,54 @@
 <template lang="pug">
   div
-    Form.login(:label-width="100")
-      Form-item(label="请输入姓名")
-        Input(v-model="nickname")
-      Form-item
-        Button(type="primary", @click="submit") 确定
+    Form.login(:label-width="100", :model="form", ref="form", :rules="ruleForm")
+      Form-item(label="请输入姓名", prop="nickname")
+        Input(v-model.trim="form.nickname")
+      Form-item()
+        Button(type="primary", :loading="loading", @click="submit") 确定
 </template>
 
 <script>
+  import store from '@/store';
   import apiAuth from '@/api/auth';
 
   export default {
     data() {
       return {
-        nickname: '',
+        loading: false,
+        form: {
+          nickname: '',
+        },
+        ruleForm: {
+          nickname: { required: true, message: '不能为空', trigger: 'blur' },
+        },
       };
     },
     created() {
-      console.log(this.$store, this.$router);
     },
     methods: {
       submit() {
-        apiAuth.login()
+        this.$refs.form.validate((valid) => {
+          if (!valid) {
+            this.$Message.error('请先填写好表单后进行提交');
+          } else {
+            this.login();
+          }
+        });
+      },
+      login() {
+        this.loading = true;
+        apiAuth.login({ nickname: this.form.nickname })
           .then((data) => {
-            console.log(data);
+            store.commit('setAuthState', 200);
+            store.commit('setUserInfo', data);
+
+            this.$router.replace('/');
           })
           .catch((err) => {
             this.$Message.error(err);
+          })
+          .then(() => {
+            this.loading = false;
           });
       },
     },

@@ -1,11 +1,21 @@
 export default {
   state: {
-    authState: 200,
-    nickname: '',
+    authState: -1,
+    userInfo: {
+      nickname: '',
+      id: '',
+      image: 1,
+    },
   },
   mutations: {
-    serAuthState(state, authState) {
+    setAuthState(state, authState) {
       state.authState = authState;
+    },
+
+    setUserInfo(state, { nickname, id, image }) {
+      state.userInfo.nickname = nickname;
+      state.userInfo.id = id;
+      state.userInfo.image = image;
     },
   },
 };

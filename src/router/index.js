@@ -9,6 +9,10 @@ export default new Router({
       path: '/login',
       name: 'login',
       component: () => import('@/pages/login'),
+    }, {
+      path: '/',
+      name: 'online-chat',
+      component: () => import('@/pages/chat'),
     },
   ],
 });

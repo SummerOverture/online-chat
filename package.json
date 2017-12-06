@@ -6,6 +6,8 @@
   "private": true,
   "scripts": {
     "dev": "webpack-dev-server --inline --config build/webpack.dev.conf.js",
+    "dev-back": "NODE_ENV=development PORT=8888 node ./app.js",
+    "pro-back": "NODE_ENV=production PORT=8888 node ./app.js",
     "start": "npm run dev",
     "lint": "eslint --ext .js,.vue src",
     "build": "node build/build.js"

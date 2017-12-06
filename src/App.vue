@@ -5,17 +5,11 @@
 </template>
 
 <script>
-  import apiAuth from '@/api/auth';
-
   export default {
-    created() {
-      apiAuth.checkAuth()
-        .then((data) => {
-          console.log(data);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+    data() {
+      return {
+        loading: false,
+      };
     },
   };
 </script>
@@ -27,6 +21,5 @@
     -moz-osx-font-smoothing: grayscale;
     text-align: center;
     color: #2c3e50;
-    margin-top: 60px;
   }
 </style>
