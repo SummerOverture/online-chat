@@ -5,7 +5,7 @@
     div.body
       Row(type="flex", :gutter="24" align="top")
         Col(span="16")
-          Card(padding="0")
+          Card(:padding="0")
             h4(slot="title") 聊天列表
             div.card-body
               div.messageList
@@ -26,7 +26,7 @@
                 Input(v-model.trim="message", @keyup.enter.native="sendMsg", placeholder="请输入...")
                   Button(slot="append", type="primary", @click="sendMsg") 发送
         Col(span="8")
-          Card(padding="0")
+          Card(:padding="0")
             h4(slot="title") 用户列表
             div.card-body
               div.userList

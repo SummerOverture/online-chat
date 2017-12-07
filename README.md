@@ -2,8 +2,15 @@
 
 > `online-chat`
 
-## Build Setup
+## notice
+``` bash
+ 1: dev-back and pro-back use the same port 8888
+ 2: websocket get your Identity information from request-header-cookie；
+    so that u can get different identity information from different browser
 
+
+```
+## Build Setup
 ``` bash
 # install dependencies
 npm install

@@ -1,9 +1,9 @@
 <template lang="pug">
   div
-    Form.login(:label-width="100", :model="form", ref="form", :rules="ruleForm")
+    Form.login(:label-width="100", action="javascript:void(0)", :model="form", ref="form", :rules="ruleForm")
       Form-item(label="请输入姓名", prop="nickname")
-        Input(v-model.trim="form.nickname")
-      Form-item()
+        Input(v-model.trim="form.nickname", @on-enter="submit")
+      Form-item
         Button(type="primary", :loading="loading", @click="submit") 确定
 </template>
 
@@ -26,6 +26,9 @@
     created() {
     },
     methods: {
+      handleSubmit() {
+        alert(1);
+      },
       submit() {
         this.$refs.form.validate((valid) => {
           if (!valid) {
