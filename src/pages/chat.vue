@@ -55,7 +55,6 @@
     },
     created() {
       if (!this.socket) {
-        console.log(this.socket);
         this.createSocket();
       }
     },
